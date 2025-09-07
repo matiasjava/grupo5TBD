@@ -1,3 +1,64 @@
+
+-- Sentencia 3: Medios de transporte más usados para repartir los pedidos por comuna de un cliente.
+
+WITH usos AS (
+  SELECT
+    d.comuna,
+    mt.nombre_transporte AS transporte,
+    COUNT(*) AS veces
+  FROM pedido p
+  JOIN entrega e        ON e.id_pedido      = p.id_pedido
+  JOIN direccion d      ON d.id_direccion   = e.id_direccion
+  JOIN repartidor r     ON r.id_repartidor  = e.id_repartidor
+  JOIN medio_transporte mt ON mt.id_medio_transporte = r.id_medio_transporte
+  WHERE p.id_cliente = 1 --EJEMPLO DE ID DE UN CLIENTE (ANA)
+    AND COALESCE(p.estado, '') <> 'Cancelado'
+  GROUP BY d.comuna, mt.nombre_transporte
+),
+ranked AS (
+  SELECT
+    comuna,
+    transporte,
+    veces,
+    DENSE_RANK() OVER (PARTITION BY comuna ORDER BY veces DESC) AS rk
+  FROM usos
+)
+SELECT comuna, transporte, veces
+FROM ranked
+WHERE rk = 1
+ORDER BY comuna, transporte;
+
+
+
+
+-- Sentencia 4: Lista de regiones con más pedidos por mes, en los últimos 3 años.
+
+WITH base AS (
+  SELECT
+    date_trunc('month', p.fecha_pedido)::date AS mes,
+    d.region,
+    COUNT(DISTINCT p.id_pedido) AS pedidos
+  FROM pedido p
+  JOIN entrega e   ON e.id_pedido = p.id_pedido
+  JOIN direccion d ON d.id_direccion = e.id_direccion
+  WHERE COALESCE(p.estado, '') <> 'Cancelado'
+    AND p.fecha_pedido >= (CURRENT_DATE - INTERVAL '3 years')
+  GROUP BY 1, 2
+),
+ranked AS (
+  SELECT
+    mes, region, pedidos,
+    DENSE_RANK() OVER (PARTITION BY mes ORDER BY pedidos DESC) AS rk
+  FROM base
+)
+SELECT
+  to_char(mes, 'YYYY-MM') AS anio_mes,
+  region,
+  pedidos
+FROM ranked
+WHERE rk = 1
+ORDER BY mes, region;
+
 -- Sentencia 5:Lista de clientes por compañía que más ha pagado mensualmente.
 
 SELECT DISTINCT ON (anio, mes, id_compania)
@@ -22,8 +83,6 @@ FROM (
 ) x
 ORDER BY anio, mes, id_compania, monto DESC, cliente ASC;
 
-
-
 -- Sentencia 6: Pedido diario con más productos del último mes.
 
 SELECT DISTINCT ON (dia)
@@ -41,8 +100,6 @@ FROM (
   GROUP BY p.fecha_pedido, p.id_pedido
 ) x
 ORDER BY dia, total_productos DESC, id_pedido ASC;
-
-
 
 
 -- Sentencia 9: Lista de repartidores que han llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro.
