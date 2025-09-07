@@ -51,13 +51,13 @@ INSERT INTO compania (id_compania, nombre_compania, id_direccion) VALUES
 (303, 'Pacífico Retail',        104);
 
 -- 6) PRODUCTOS
-INSERT INTO producto (id_producto, nombre_producto, descripcion_producto, precio_producto, stock_producto, id_compania) VALUES
-(401, 'Café Grano 1kg',     'Arábica tostado medio',              10990.00, 300, 301),
-(402, 'Té Verde 100u',      'Bolsa filtrante premium',             5990.00, 500, 301),
-(403, 'Yerba Mate 500g',    'Selección especial',                   3990.00, 400, 303),
-(404, 'Leche A2 1L',        'Libre de A1 beta-caseína',             1790.00, 800, 303),
-(405, 'Granola 750g',       'Frutos secos y miel',                  7490.00, 250, 302),
-(406, 'Avena 1kg',          'Instantánea sin azúcar',               2490.00, 600, 302);
+INSERT INTO producto (id_producto, nombre_producto, descripcion_producto, precio_producto, stock_producto) VALUES
+(401, 'Café Grano 1kg',     'Arábica tostado medio',              10990.00, 300),
+(402, 'Té Verde 100u',      'Bolsa filtrante premium',             5990.00, 500),
+(403, 'Yerba Mate 500g',    'Selección especial',                   3990.00, 400),
+(404, 'Leche A2 1L',        'Libre de A1 beta-caseína',             1790.00, 800),
+(405, 'Granola 750g',       'Frutos secos y miel',                  7490.00, 250),
+(406, 'Avena 1kg',          'Instantánea sin azúcar',               2490.00, 600);
 
 -- 7) PRODUCTO vs COMPAÑÍA
 INSERT INTO producto_compania (id_producto, id_compania) VALUES

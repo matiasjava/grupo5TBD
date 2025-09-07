@@ -45,11 +45,7 @@ CREATE TABLE producto (
   nombre_producto      VARCHAR(100) NOT NULL,
   descripcion_producto VARCHAR(500) NOT NULL,
   precio_producto      NUMERIC(10,2) NOT NULL,
-  stock_producto       INTEGER NOT NULL,
-  id_compania          INTEGER
-    REFERENCES compania(id_compania)
-      ON UPDATE CASCADE
-      ON DELETE RESTRICT
+  stock_producto       INTEGER NOT NULL
 );
 
 CREATE TABLE producto_compania (
