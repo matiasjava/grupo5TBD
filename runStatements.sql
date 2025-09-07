@@ -105,7 +105,7 @@ ORDER BY dia, total_productos DESC, id_pedido ASC;
 -- Sentencia 9: Lista de repartidores que han llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro.
 SELECT DISTINCT r.id_repartidor, r.nombre, r.apellido FROM repartidor r
 JOIN medio_transporte mt ON mt.id_medio_transporte = r.id_medio_transporte
-WHERE mt.nombre_transporte IN ('moto', 'bicicleta')
+WHERE mt.nombre_transporte IN ('Moto', 'Bicicleta')
   AND EXISTS (
         SELECT *
         FROM entrega e

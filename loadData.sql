@@ -19,7 +19,12 @@ INSERT INTO direccion (id_direccion, comuna,        region,                    i
 (105, 'Concepción',   'Región del Biobío',          3),
 (106, 'La Serena',    'Región de Coquimbo',         3),
 (107, 'Temuco',       'Región de La Araucanía',     4),
-(108, 'Puerto Montt', 'Región de Los Lagos',        5);
+(108, 'Puerto Montt', 'Región de Los Lagos',        5),
+(109, 'Santiago Centro', 'Región Metropolitana',    1),  
+(110, 'Santiago Centro', 'Región Metropolitana',    2),  
+(111, 'Providencia',     'Región Metropolitana',    3),  
+(112, 'Santiago Centro', 'Región Metropolitana',    5), 
+(113, 'Providencia',     'Región Metropolitana',    4);  
 
 -- 3) MEDIOS DE TRANSPORTE
 INSERT INTO medio_transporte (id_medio_transporte, nombre_transporte) VALUES
@@ -83,7 +88,16 @@ INSERT INTO pedido (id_pedido, fecha_pedido, estado, id_cliente, id_repartidor) 
 (515, '2025-07-28', 'Despachado',   4, 204),
 (516, '2025-08-05', 'Entregado',    5, 203),
 (517, '2025-08-18', 'Entregado',    2, 202),
-(518, '2025-09-02', 'Entregado',    3, 205);
+(518, '2025-09-02', 'Entregado',    3, 205),
+(519, '2025-08-03', 'Entregado',    1, 201), 
+(520, '2025-08-03', 'Entregado',    2, 202),  
+(521, '2025-08-05', 'Entregado',    1, 202), 
+(522, '2025-08-12', 'Entregado',    3, 201),  
+(523, '2025-08-12', 'Entregado',    5, 202), 
+(524, '2025-08-18', 'Entregado',    1, 201),  
+(525, '2025-08-21', 'Entregado',    4, 202),  
+(526, '2025-08-29', 'Entregado',    2, 201),  
+(527, '2025-08-31', 'Entregado',    5, 202);  
 
 -- 9) DETALLE DE PEDIDO (incluye id_cliente)
 INSERT INTO pedido_detalle (id_pedido_deta, cantidad, precio_unitario, id_cliente, id_producto, id_pedido) VALUES
@@ -131,7 +145,29 @@ INSERT INTO pedido_detalle (id_pedido_deta, cantidad, precio_unitario, id_client
 (725, 2,  1790.00, 2, 404, 517),
 -- P518 (María)
 (726, 1,  2490.00, 3, 406, 518),
-(727, 1,  3990.00, 3, 403, 518);
+(727, 1,  3990.00, 3, 403, 518),
+-- P519 (Ana)
+(728, 2, 10990.00, 1, 401, 519),
+(729, 1,  5990.00, 1, 402, 519),
+-- P520 (2025-08-03) total 12.860 -> Luis
+(730, 3,  1790.00, 2, 404, 520),
+(731, 1,  7490.00, 2, 405, 520),
+-- P521 (2025-08-05) total 22.970 -> Ana
+(733, 2,  5990.00, 1, 402, 521),
+-- P522 (2025-08-12) total 13.950 -> María
+(734, 4,  2490.00, 3, 406, 522),
+(735, 1,  3990.00, 3, 403, 522),
+-- P523 (2025-08-12) total 21.980 -> Carla 
+(736, 2, 10990.00, 5, 401, 523),
+-- P524 (2025-08-18) total 14.980 -> Ana 
+(737, 2,  7490.00, 1, 405, 524),
+-- P525 (2025-08-21) total 17.970 -> Jorge
+(738, 3,  5990.00, 4, 402, 525),
+-- P526 (2025-08-29) total 15.970 -> Luis
+(739, 1, 10990.00, 2, 401, 526),
+(740, 2,  2490.00, 2, 406, 526),
+-- P527 (2025-08-31) total 11.970 -> Carla
+(741, 3,  3990.00, 5, 403, 527);
 
 -- 10) ENTREGAS (ligan pedido a DIRECCIÓN -> comuna y a repartidor)
 -- Distribuimos direcciones para que el mismo cliente tenga pedidos en comunas distintas
@@ -158,4 +194,13 @@ INSERT INTO entrega (id_entrega, id_pedido, id_repartidor, id_direccion) VALUES
 -- Carla (id_cliente=5): Puerto Montt
 (816, 508, 201, 108),
 (817, 513, 206, 108),
-(818, 516, 203, 108);
+(818, 516, 203, 108),
+(819, 519, 201, 109),  
+(820, 520, 202, 110),  
+(821, 521, 202, 101),  
+(822, 522, 201, 111),  
+(823, 523, 202, 112),  
+(824, 524, 201, 101),  
+(825, 525, 202, 113),  
+(826, 526, 201, 103),  
+(827, 527, 202, 108);  
