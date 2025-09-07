@@ -1,4 +1,34 @@
 
+-- Sentencia 1: Lista de clientes con más pedidos por compañía.
+
+SELECT DISTINCT ON (c.id_compania)
+       c.id_compania,
+       c.nombre_compania,
+       cl.id_cliente,
+       cl.nombre_cliente,
+       COUNT(DISTINCT p.id_pedido) AS total_pedidos
+FROM compania c
+JOIN producto pr ON pr.id_compania = c.id_compania
+JOIN pedido_detalle pd ON pd.id_producto = pr.id_producto
+JOIN pedido p ON p.id_pedido = pd.id_pedido
+JOIN cliente cl ON cl.id_cliente = p.id_cliente
+GROUP BY c.id_compania, c.nombre_compania, cl.id_cliente, cl.nombre_cliente
+ORDER BY c.id_compania, total_pedidos DESC;
+
+-- Sentencia 2: Producto menos pedidos por compañía.
+
+SELECT DISTINCT ON (c.id_compania)
+       c.id_compania,
+       c.nombre_compania,
+       pr.id_producto,
+       pr.nombre_producto,
+       COUNT(pd.id_pedido) AS total_pedidos
+FROM compania c
+JOIN producto pr ON pr.id_compania = c.id_compania
+LEFT JOIN pedido_detalle pd ON pd.id_producto = pr.id_producto
+GROUP BY c.id_compania, c.nombre_compania, pr.id_producto, pr.nombre_producto
+ORDER BY c.id_compania, total_pedidos ASC;
+
 -- Sentencia 3: Medios de transporte más usados para repartir los pedidos por comuna de un cliente.
 
 WITH usos AS (
