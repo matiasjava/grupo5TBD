@@ -138,6 +138,71 @@ FROM (
 ORDER BY dia, total_productos DESC, id_pedido ASC;
 
 
+-- Sentencia 7: Lista de repartidores con la mayor cantidad de despachos mensuales, en los últimos 3 años.
+WITH DespachosMensuales AS (
+  SELECT
+    r.id_repartidor,
+    r.nombre || ' ' || r.apellido AS nombre_repartidor,
+    EXTRACT(YEAR FROM p.fecha_pedido) AS anio,
+    EXTRACT(MONTH FROM p.fecha_pedido) AS mes,
+    COUNT(p.id_pedido) AS total_despachos
+  FROM
+    repartidor r
+  JOIN
+    pedido p ON r.id_repartidor = p.id_repartidor
+  WHERE
+    p.fecha_pedido >= '2023-01-01'
+  GROUP BY
+    r.id_repartidor, anio, mes
+),
+MaximosPorMes AS (
+  SELECT
+    anio,
+    mes,
+    MAX(total_despachos) AS max_despachos
+  FROM
+    DespachosMensuales
+  GROUP BY
+    anio, mes
+)
+SELECT
+  dm.nombre_repartidor,
+  dm.anio,
+  dm.mes,
+  dm.total_despachos
+FROM
+  DespachosMensuales dm
+JOIN
+  MaximosPorMes mpm ON dm.anio = mpm.anio AND dm.mes = mpm.mes
+WHERE
+  dm.total_despachos = mpm.max_despachos
+ORDER BY
+  dm.anio DESC, dm.mes DESC;
+
+
+
+-- Sentencia 8: Lista de compañias que han recibido más dinero en el ultimo año.
+SELECT
+    c.nombre_compania,
+    SUM(pd.cantidad * pd.precio_unitario) AS total_ingresos
+FROM
+    compania c
+JOIN
+    producto_compania pc ON c.id_compania = pc.id_compania
+JOIN
+    producto pr ON pc.id_producto = pr.id_producto
+JOIN
+    pedido_detalle pd ON pr.id_producto = pd.id_producto
+JOIN
+    pedido p ON pd.id_pedido = p.id_pedido
+WHERE
+    p.fecha_pedido >= '2025-01-01'
+GROUP BY
+    c.nombre_compania
+ORDER BY
+    total_ingresos DESC;
+
+
 -- Sentencia 9: Lista de repartidores que han llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro.
 SELECT DISTINCT r.id_repartidor, r.nombre, r.apellido FROM repartidor r
 JOIN medio_transporte mt ON mt.id_medio_transporte = r.id_medio_transporte
