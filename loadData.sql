@@ -35,7 +35,7 @@ INSERT INTO medio_transporte (id_medio_transporte, nombre_transporte) VALUES
 (5, 'Scooter'),
 (6, 'A pie');
 
--- 4) REPARTIDORES (mapeados a distintos medios)
+-- 4) REPARTIDORES 
 INSERT INTO repartidor (id_repartidor, nombre, apellido, telefono, id_medio_transporte) VALUES
 (201, 'Pedro', 'Lagos',   '+56911111111', 1),
 (202, 'Diego', 'Vera',    '+56922222222', 2),
@@ -65,7 +65,7 @@ INSERT INTO producto_compania (id_producto, id_compania) VALUES
 (403, 303), (404, 303),
 (405, 302), (406, 302);
 
--- 8) PEDIDOS (fechas variadas 2023–2025, distintos estados y repartidores)
+-- 8) PEDIDOS 
 -- Estados de ejemplo: 'Creado', 'Preparación', 'Despachado', 'Entregado', 'Cancelado'
 INSERT INTO pedido (id_pedido, fecha_pedido, estado, id_cliente, id_repartidor) VALUES
 -- 2023
@@ -99,9 +99,9 @@ INSERT INTO pedido (id_pedido, fecha_pedido, estado, id_cliente, id_repartidor) 
 (526, '2025-08-29', 'Entregado',    2, 201),  
 (527, '2025-08-31', 'Entregado',    5, 202);  
 
--- 9) DETALLE DE PEDIDO (incluye id_cliente)
+-- 9) DETALLE DE PEDIDO 
 INSERT INTO pedido_detalle (id_pedido_deta, cantidad, precio_unitario, id_cliente, id_producto, id_pedido) VALUES
--- P501 (Ana, Providencia o Maipú según entrega)
+-- P501 (Ana)
 (701, 2, 10990.00, 1, 401, 501),
 (702, 1,  5990.00, 1, 402, 501),
 -- P502 (Luis)
@@ -149,27 +149,27 @@ INSERT INTO pedido_detalle (id_pedido_deta, cantidad, precio_unitario, id_client
 -- P519 (Ana)
 (728, 2, 10990.00, 1, 401, 519),
 (729, 1,  5990.00, 1, 402, 519),
--- P520 (2025-08-03) total 12.860 -> Luis
+-- P520 (Luis)
 (730, 3,  1790.00, 2, 404, 520),
 (731, 1,  7490.00, 2, 405, 520),
--- P521 (2025-08-05) total 22.970 -> Ana
+-- P521 (Ana)
 (733, 2,  5990.00, 1, 402, 521),
--- P522 (2025-08-12) total 13.950 -> María
+-- P522 (María)
 (734, 4,  2490.00, 3, 406, 522),
 (735, 1,  3990.00, 3, 403, 522),
--- P523 (2025-08-12) total 21.980 -> Carla 
+-- P523 (Carla)
 (736, 2, 10990.00, 5, 401, 523),
--- P524 (2025-08-18) total 14.980 -> Ana 
+-- P524 (Ana)
 (737, 2,  7490.00, 1, 405, 524),
--- P525 (2025-08-21) total 17.970 -> Jorge
+-- P525 (Jorge)
 (738, 3,  5990.00, 4, 402, 525),
--- P526 (2025-08-29) total 15.970 -> Luis
+-- P526 (Luis)
 (739, 1, 10990.00, 2, 401, 526),
 (740, 2,  2490.00, 2, 406, 526),
--- P527 (2025-08-31) total 11.970 -> Carla
+-- P527 (Carla)
 (741, 3,  3990.00, 5, 403, 527);
 
--- 10) ENTREGAS (ligan pedido a DIRECCIÓN -> comuna y a repartidor)
+-- 10) ENTREGAS 
 -- Distribuimos direcciones para que el mismo cliente tenga pedidos en comunas distintas
 INSERT INTO entrega (id_entrega, id_pedido, id_repartidor, id_direccion) VALUES
 -- Ana (id_cliente=1): Providencia y Maipú
@@ -188,7 +188,7 @@ INSERT INTO entrega (id_entrega, id_pedido, id_repartidor, id_direccion) VALUES
 (811, 512, 202, 105),  -- Concepción
 (812, 518, 205, 106),  -- La Serena
 -- Jorge (id_cliente=4): Temuco
-(813, 505, 206, 107),  -- Cancelado igual quedará registro de intento de entrega
+(813, 505, 206, 107),  -- Cancelado 
 (814, 510, 204, 107),
 (815, 515, 204, 107),
 -- Carla (id_cliente=5): Puerto Montt
@@ -203,4 +203,4 @@ INSERT INTO entrega (id_entrega, id_pedido, id_repartidor, id_direccion) VALUES
 (824, 524, 201, 101),  
 (825, 525, 202, 113),  
 (826, 526, 201, 103),  
-(827, 527, 202, 108);  
+(827, 527, 202, 108); 
